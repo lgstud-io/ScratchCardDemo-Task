@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import sk.lg.scratchCard.model.MainViewModel
 import sk.lg.scratchCard.ui.theme.ScratchCardDemoTheme
@@ -39,6 +40,9 @@ import sk.lg.scratchCard.util.ObserveAsEvents
 import sk.lg.scratchCard.util.SnackBarController
 
 class MainActivity : ComponentActivity() {
+
+    private var job: Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -109,7 +113,9 @@ class MainActivity : ComponentActivity() {
                         Row {
                             Button(
                                 enabled = vm.voucherText.isEmpty(),
-                                onClick = { vm.scratchVoucher() }
+                                onClick = {
+                                    job = scope.launch { vm.scratchVoucher() }
+                                }
                             ) {
                                     Text(text = stringResource(id = R.string.scratch_code))
                             }
@@ -127,6 +133,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        job?.cancel()
+        super.onPause()
     }
 }
 

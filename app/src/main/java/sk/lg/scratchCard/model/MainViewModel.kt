@@ -30,10 +30,8 @@ class MainViewModel() :ViewModel() {
         }
     }
 
-    fun scratchVoucher(){
-        viewModelScope.launch {
-            delay(2000)
-            voucherText = UUID.randomUUID().toString()
-        }
+    suspend fun scratchVoucher(){
+        delay(2000)
+        voucherText = UUID.randomUUID().toString()
     }
 }
