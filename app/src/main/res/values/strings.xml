@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ScratchCard Demo</string>
+    <string name="scratch_code">Scratch Code</string>
+    <string name="validate_code">Validate Code</string>
+    <string name="validation_ok">Validation Success</string>
+    <string name="validation_failed">Code not valid</string>
+</resources>
